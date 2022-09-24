@@ -1,0 +1,33 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "the population per state, engineers per state, and hurricanes per state",
+  "repeat": {"row": ["population"]},
+  "resolve": {"scale": {"color": "independent"}},
+  "spec": {
+    "width": 500,
+    "height": 500,
+    "data": {
+      "url": "https://raw.githubusercontent.com/ChenyangZhouMonash/fit3179/main/us_population.csv"
+    },
+    "transform": [
+      {
+        "lookup": "id",
+        "from": {
+          "data": {
+            "url": "https://raw.githubusercontent.com/ChenyangZhouMonash/fit3179/main/us-10m.json",
+            "format": {"type": "topojson", "feature": "states"}
+          },
+          "key": "id"
+        },
+        "as": "geo"
+      }
+    ],
+    "projection": {"type": "mercator", "size": [1500, 400]},
+    "mark": "geoshape",
+    "encoding": {
+      "shape": {"field": "geo", "type": "geojson"},
+      "color": {"field": {"repeat": "row"}, "type": "quantitative"}
+    }
+  },
+  "config": {}
+}
